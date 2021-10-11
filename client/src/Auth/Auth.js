@@ -10,14 +10,15 @@ import {
   Container,
   Grid,
   Paper,
-  TextField,
   Typography,
 } from "@material-ui/core";
 import Input from "./Input";
+import { useHistory } from "react-router";
 
 export default function Auth() {
   const classes = useStyles();
  const dispatch = useDispatch()
+ const history = useHistory()
   const [isSignup, setIsSignup] = useState(true);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -41,6 +42,7 @@ export default function Auth() {
 
     try {
         dispatch({type: 'AUTH', data: {result, token}})
+        history.push('/')
     } catch (error) {
         console.log(error)
     }
