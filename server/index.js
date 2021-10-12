@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const postRoutes = require('./routes/posts')
+const userRoutes = require('./routes/users')
 const dotenv = require('dotenv')
 
 
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({limit: '30mb', extended: true}))
 
 app.use(cors())
 app.use('/posts', postRoutes)
+app.use('/user', userRoutes)
 app.get('/', (req, res)=>{
     res.send('Привіт Спогади АПІ)')
 })
