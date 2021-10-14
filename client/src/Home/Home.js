@@ -16,17 +16,17 @@ export default function Home() {
   }, [dispatch, currentId])
     return (
         <Grow in>
-            <Container>
+            <Container disableGutters={true}>
                 <Grid
                     container
-                    justify="space-between"
+                    justifyContent="space-between"
                     alignItems="stretch"
-                    spacing="3"
+                    spacing={3}
                 >
-                    <Grid items xs={12} sm={7}>
+                    <Grid item={true} xs={12} sm={7}>
                         <Posts setCurrentId={setCurrentId} />
                     </Grid>
-                    <Grid items xs={12} sm={4}>
+                    <Grid item={true} xs={12} sm={4}>
                         <Form currentId={currentId} setCurrentId={setCurrentId} />
                     </Grid>
                 </Grid>

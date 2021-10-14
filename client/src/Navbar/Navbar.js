@@ -5,6 +5,7 @@ import memories from "./../images/memories.png";
 import useStyles from "./styles"
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from "react-router";
+import decode from 'jwt-decode'
 
 export default function Navbar() {
     const classes = useStyles()
@@ -12,16 +13,23 @@ export default function Navbar() {
     const location = useLocation()
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
     const dispatch = useDispatch()
-    const logout = ()=>{
-        dispatch({type: 'LOGOUT'})
+    const logout = () => {
+        dispatch({ type: 'LOGOUT' })
         history.push('/')
         setUser(null)
     }
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         const token = user?.token
+
+        if (token) {
+            const decodedtoken = decode(token)
+
+            if (decodedtoken.exp * 1000 < new Date().getTime()) logout()
+        }
+
         setUser(JSON.parse(localStorage.getItem('profile')))
-    },[location])
+    }, [location])
 
     return (
         <AppBar className={classes.appBar} position="static" color="inherit">
