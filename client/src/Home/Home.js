@@ -1,36 +1,62 @@
-import React,{ useEffect, useState } from 'react'
-import { Container, Grid, Grow} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { AppBar, Container, Grid, Grow, Paper } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import {getPosts} from '../actions/posts'
-
+import { getPosts } from "../actions/posts";
+import ChipInput from "material-ui-chip-input";
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
+import Paginate from "../Pagination/Pagination";
+import useStyles from "./styles";
+import { useLocation, useHistory } from "react-router";
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 export default function Home() {
-    const [currentId, setCurrentId] = useState(null)
+  const [currentId, setCurrentId] = useState(null);
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const query = useQuery();
+  const history = useHistory();
+  const page = query.get("page") || 1;
+  const searchQuery = query.get("searchQuery");
 
   useEffect(() => {
-    dispatch(getPosts())
-  }, [dispatch, currentId])
-    return (
-        <Grow in>
-            <Container disableGutters={true}>
-                <Grid
-                    container
-                    justifyContent="space-between"
-                    alignItems="stretch"
-                    spacing={3}
-                >
-                    <Grid item={true} xs={12} sm={7}>
-                        <Posts setCurrentId={setCurrentId} />
-                    </Grid>
-                    <Grid item={true} xs={12} sm={4}>
-                        <Form currentId={currentId} setCurrentId={setCurrentId} />
-                    </Grid>
-                </Grid>
-            </Container>
-        </Grow>
-    )
+    dispatch(getPosts());
+  }, [dispatch, currentId]);
+  return (
+    <Grow in>
+      <Container disableGutters={true} maxWidth='xl'>
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="stretch"
+          spacing={3}
+          className={classes.gridContainer}
+        >
+          <Grid item={true} xs={12} sm={6} md={9}>
+            <Posts setCurrentId={setCurrentId} />
+          </Grid>
+          <Grid item={true} xs={12} sm={6} md={3}>
+              <AppBar className={classes.appBarSearch} position='static' color='inherit'>
+                <TextField 
+                name='name'
+                   variant='outlined'
+                   label='Пошук'
+                   fullWidth
+                   value='Test'
+                   onChange={()=>{}} 
+                />
+              </AppBar>
+            <Form currentId={currentId} setCurrentId={setCurrentId} />
+            <Paper className={classes.pagination} elevation={6}>
+              <Paginate />
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
+    </Grow>
+  );
 }
