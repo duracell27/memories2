@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import memories from "./../images/memories.png";
+import memoriesText from "./../images/memories-Text.png";
 import useStyles from "./styles"
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from "react-router";
@@ -35,7 +36,7 @@ export default function Navbar() {
         <AppBar className={classes.appBar} position="static" color="inherit">
             <div className={classes.brandContainer}>
                 <Typography component={Link} to='/' className={classes.heading} variant="h2" align="center">
-                    Memories
+                <img className={classes.image} src={memoriesText} alt="memories" height="60" />
                 </Typography>
                 <img className={classes.image} src={memories} alt="memories" height="60" />
             </div>

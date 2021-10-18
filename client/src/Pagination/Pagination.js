@@ -1,19 +1,29 @@
-import React from 'react'
-import {Pagination, PaginationItem} from '@material-ui/lab'
-import useStyles from './styles'
-import { Link } from 'react-router-dom'
-export default function Paginate() {
-    const clases = useStyles()
-    return (
-        <Pagination 
-            classes={{ul: clases.ul}}
-            count={5}
-            page={1}
-            variant="outlined"
-            color='primary'
-            renderItem={(item)=>(
-                <PaginationItem {...item} component={Link} to={`/posts?page=${1}`}/>
-            )}
-        />
-    )
+import React, { useEffect } from "react";
+import { Pagination, PaginationItem } from "@material-ui/lab";
+import useStyles from "./styles";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getPosts } from "../actions/posts";
+
+export default function Paginate({ page }) {
+  const clases = useStyles();
+  const dispatch = useDispatch();
+  const {numberOfPages} = useSelector((state)=>state.posts)
+  useEffect(() => {
+    if (page) {
+      dispatch(getPosts(page));
+    }
+  }, [page]);
+  return (
+    <Pagination
+      classes={{ ul: clases.ul }}
+      count={numberOfPages}
+      page={Number(page) || 1}
+      variant="outlined"
+      color="primary"
+      renderItem={(item) => (
+        <PaginationItem {...item} component={Link} to={`/posts?page=${item.page}`} />
+      )}
+    />
+  );
 }
