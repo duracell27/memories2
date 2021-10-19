@@ -42,10 +42,16 @@ export default makeStyles({
     margin: '20px',
     marginBottom: '0px'
   },
-  
+  title: {
+    padding: '0 2px',
+  },
   cardActions: {
     padding: '0 16px 8px 16px',
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  cardAction: {
+    display: 'block',
+    textAlign: 'initial',
   },
 });

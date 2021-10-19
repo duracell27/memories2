@@ -9,10 +9,12 @@ import useStyles from "./styles"
 export default function Posts({setCurrentId}) {
     const classes = useStyles()
 
-    const {posts} = useSelector((state) => state.posts)
+    const {posts, isLoading} = useSelector((state) => state.posts)
+
+    if(!posts.length && !isLoading) return 'Немає постів('
 
     return (
-        !posts?.length ? <CircularProgress /> : (
+        isLoading ? <CircularProgress /> : (
             <Grid className={classes.container} container alignItems='stretch' spacing={3}>
                 {posts.map((post)=>(
                     <Grid key={post._id} item={true} xs={12} sm={12} md={6} lg={3}>

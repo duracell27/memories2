@@ -1,7 +1,7 @@
 const ObjectId = require("mongoose").Types.ObjectId;
 const PostMessage = require("./../models/postMessage");
 
-exports.getPost = async (req, res) => {
+exports.getPosts = async (req, res) => {
   const { page } = req.query;
   try {
     const LIMIT = 8;
@@ -10,6 +10,17 @@ exports.getPost = async (req, res) => {
 
     const posts = await PostMessage.find().sort({_id: -1}).limit(LIMIT).skip(startIndex);
     res.status(200).json({data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total/LIMIT)});
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+exports.getPost = async (req, res) => {
+  const { id } = req.params;
+  try {   
+    const post = await PostMessage.findById(id);
+
+    res.status(200).json(post);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
